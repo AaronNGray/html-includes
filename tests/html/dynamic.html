@@ -11,12 +11,12 @@
 <html>
 
 <head>
-  <title>HTML Imports Dynamic</title>
-  <script src="../../html-imports.min.js"></script>
+  <title>HTML Includes Dynamic</title>
+  <script src="../../html-includes.min.js"></script>
   <script>
     WCT = {
       waitFor: function(callback) {
-        HTMLImports.whenReady(callback);
+        HTMLIncludes.whenReady(callback);
       }
     };
   </script>
@@ -26,23 +26,23 @@
 <body>
 
   <script>
-    test('dynamic imports', function(done) {
+    test('dynamic includes', function(done) {
       var loadSpy = sinon.stub();
       var whenReadySpy = sinon.stub();
 
       var div = document.createElement('div');
-      div.innerHTML = '<link rel="import" href="imports/load-1.html">' +
-        '<link rel="import" href="imports/load-2.html">';
+      div.innerHTML = '<link rel="include" href="includes/load-1.html">' +
+        '<link rel="include" href="includes/load-2.html">';
       for (var i = 0, l = div.children.length; i < l; i++) {
         div.children[i].addEventListener('load', loadSpy);
       }
       document.head.appendChild(div);
 
-      HTMLImports.whenReady(whenReadySpy);
+      HTMLIncludes.whenReady(whenReadySpy);
       assert.isFalse(whenReadySpy.called,
         'captured elements dynamically added');
 
-      HTMLImports.whenReady(function() {
+      HTMLIncludes.whenReady(function() {
         assert.equal(whenReadySpy.callCount, 1,
           'called previous whenReady');
         assert.equal(loadSpy.callCount, 2, 'load count ok');
@@ -53,22 +53,22 @@
     test('concurrent loads', function(done) {
       var loadSpy = sinon.stub();
       var errorSpy = sinon.stub();
-      
+
       var link = document.createElement('link');
-      link.setAttribute('rel', 'import');
-      link.setAttribute('href', 'imports/load-a.html');
+      link.setAttribute('rel', 'include');
+      link.setAttribute('href', 'includes/load-a.html');
       link.addEventListener('load', loadSpy);
       link.addEventListener('error', errorSpy);
 
       // Add also a <style> to have multiple mutations.
-      // HTMLImports should wait for link to load.
+      // HTMLIncludes should wait for link to load.
       document.head.appendChild(document.createElement('style'));
       document.head.appendChild(link);
 
-      HTMLImports.whenReady(function() {
+      HTMLIncludes.whenReady(function() {
         assert.equal(errorSpy.callCount, 0, 'error not called');
         assert.equal(loadSpy.callCount, 1, 'load ok');
-        assert.isOk(link.import, 'import ok');
+        assert.isOk(link.include, 'include ok');
         done();
       });
     });

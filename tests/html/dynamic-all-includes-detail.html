@@ -10,7 +10,7 @@
 -->
 <html>
   <head>
-    <title>HTML Includes Dynamic</title>
+    <title>HTML Imports Dynamic</title>
     <script src="../../html-includes.min.js"></script>
     <script>
       var ready;
@@ -31,7 +31,7 @@
         setTimeout(function() {
           var div = document.createElement('div');
           div.innerHTML = '<link rel="include" href="includes/load-1.html">' +
-              '<link rel="include" href="includes/load-does-not-exist.html">';
+              '<link rel="include" href="includes/load-2.html">';
           document.head.appendChild(div);
           var ports = document.querySelectorAll('link[rel=include]');
           for (var i=0, l=ports.length, n; (i<l) && (n=ports[i]); i++) {
@@ -44,14 +44,14 @@
         });
       });
 
-      test('HTMLIncludes whenready errors', function(done) {
+      test('HTMLIncludes whenready', function(done) {
         HTMLIncludes.whenReady(function() {
-          assert.equal(loads, 1, 'load events count ok');
+          assert.equal(loads, 2, 'load events count ok');
           var links = document.querySelectorAll('link[rel=include]');
           assert.equal(links.length, 2, 'links count ok');
+          assert.include(links[0].href, 'includes/load-1.html', '1st link href ok');
           assert.isOk(links[0].include, '1st link include ok');
-          assert.isNotOk(links[1].include, '2nd link include ok');
-          assert.include(links[1].href, 'includes/load-does-not-exist.html', '2nd link href ok');
+          assert.isOk(links[1].include, '2nd link include ok');
           done();
         });
       });

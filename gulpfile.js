@@ -18,18 +18,18 @@ const closureOptions = {
   warning_level: 'VERBOSE',
   language_in: 'ES6_STRICT',
   language_out: 'ES5_STRICT',
-  externs: ['externs/html-imports.js'],
-  js_output_file: 'html-imports.min.js',
+  externs: ['externs/html-includes.js'],
+  js_output_file: 'html-includes.min.js',
   assume_function_wrapper: true,
   new_type_inf: true,
   rewrite_polyfills: false,
   dependency_mode: 'STRICT',
-  entry_point: 'src/html-imports.js',
+  entry_point: 'src/html-includes.js',
 };
 
 gulp.task('default', () => {
   return gulp.src([
-      './src/html-imports.js'
+      './src/html-includes.js'
     ], {base: './', follow: true})
     .pipe(sourcemaps.init())
     .pipe(closure(closureOptions))

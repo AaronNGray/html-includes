@@ -11,22 +11,22 @@
 <html>
 <head>
   <title>Style Links Test</title>
-  <script src="../../html-imports.min.js"></script>
+  <script src="../../html-includes.min.js"></script>
   <script>
     WCT = {
       waitFor: function(callback) {
-        HTMLImports.whenReady(callback);
+        HTMLIncludes.whenReady(callback);
       }
     };
   </script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="import" href="imports/style-links-import.html">
+  <link rel="include" href="includes/style-links-include.html">
   <style>
     .overridden {
       background-color: black;
     }
   </style>
-  <link rel="import" href="imports/style-elements-import.html">
+  <link rel="include" href="includes/style-elements-include.html">
   <style>
     .overridden-style {
       background-color: black;
@@ -50,8 +50,8 @@
 
   <script>
     test('style-links', function() {
-      var imp = document.head.querySelector('link[rel=import]');
-      assert.isOk(imp.import, 'import has content');
+      var imp = document.head.querySelector('link[rel=include]');
+      assert.isOk(imp.include, 'include has content');
 
       function computedStyle(selector) {
         return getComputedStyle(document.querySelector(selector));
@@ -66,11 +66,11 @@
       assert.equal(computedStyle('.styled').backgroundColor, 'rgb(255, 0, 0)', 'styled ok');
       // styles in style are applied in the correct order and overriddable
       assert.equal(computedStyle('.overridden-style').backgroundColor, 'rgb(0, 0, 0)', 'overridden-style ok');
-      if (!HTMLImports.useNative) {
-        // links with type attr are not imported
+      if (!HTMLIncludes.useNative) {
+        // links with type attr are not included
         assert.notEqual(computedStyle('.link-typed').backgroundColor, 'rgb(0, 0, 128)', 'link-typed ok');
       }
-      // styles with type attr are not imported
+      // styles with type attr are not included
       assert.notEqual(computedStyle('.style-typed').backgroundColor, 'rgb(255, 0, 0)', 'style-typed ok');
     });
   </script>

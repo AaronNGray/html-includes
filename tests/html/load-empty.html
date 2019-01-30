@@ -11,30 +11,30 @@
 <html>
   <head>
     <title>load event Test for empty resources</title>
-    <script src="../../html-imports.min.js"></script>
+    <script src="../../html-includes.min.js"></script>
     <script>
       WCT = {
         waitFor: function(callback) {
-          HTMLImports.whenReady(callback);
+          HTMLIncludes.whenReady(callback);
         }
       };
     </script>
     <script src="../../../web-component-tester/browser.js"></script>
     <script>
       window.loadEvents = 0;
-      function importLoadedWithCallback(done){
+      function includeLoadedWithCallback(done){
         return function(event){
           window.loadEvents++;
           chai.assert.equal(event.type, 'load', 'event type should be `load`');
-          chai.assert.ok(event.target.import, 'link should have `import` defined');
+          chai.assert.ok(event.target.include, 'link should have `include` defined');
           done && done();
         }
       }
-      window.importLoaded = importLoadedWithCallback();
+      window.includeLoaded = includeLoadedWithCallback();
     </script>
-    <link rel="import" href="imports/load-empty.html" onload="importLoaded(event)">
-    <link rel="import" href="imports/empty-script.html" onload="importLoaded(event)">
-    <link rel="import" href="imports/empty-style.html" onload="importLoaded(event)">
+    <link rel="include" href="includes/load-empty.html" onload="includeLoaded(event)">
+    <link rel="include" href="includes/empty-script.html" onload="includeLoaded(event)">
+    <link rel="include" href="includes/empty-style.html" onload="includeLoaded(event)">
 
   </head>
   <body>
@@ -45,21 +45,21 @@
       test('load empty resource asynchronously', function(done) {
         loadEvents = 0;
         setTimeout(function(){
-          var anotherHTMLImport = document.createElement('link');
-          anotherHTMLImport.rel = 'import';
-          anotherHTMLImport.href = 'imports/load-empty-async.html';
-          anotherHTMLImport.onload = importLoadedWithCallback(done);
-          document.head.appendChild(anotherHTMLImport);
+          var anotherHTMLInclude = document.createElement('link');
+          anotherHTMLInclude.rel = 'include';
+          anotherHTMLInclude.href = 'includes/load-empty-async.html';
+          anotherHTMLInclude.onload = includeLoadedWithCallback(done);
+          document.head.appendChild(anotherHTMLInclude);
         });
       });
       test('load empty resource second time', function(done) {
         loadEvents = 0
         setTimeout(function(){
-          var anotherHTMLImport = document.createElement('link');
-          anotherHTMLImport.rel = 'import';
-          anotherHTMLImport.href = 'imports/load-empty.html';
-          anotherHTMLImport.onload = importLoadedWithCallback(done);
-          document.head.appendChild(anotherHTMLImport);
+          var anotherHTMLInclude = document.createElement('link');
+          anotherHTMLInclude.rel = 'include';
+          anotherHTMLInclude.href = 'includes/load-empty.html';
+          anotherHTMLInclude.onload = includeLoadedWithCallback(done);
+          document.head.appendChild(anotherHTMLInclude);
         });
       });
     </script>

@@ -9,28 +9,30 @@
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
+
 <head>
-  <title>Resolve Path Test</title>
+  <title>HTML Dynamic Includer</title>
   <script src="../../html-includes.min.js"></script>
   <script>
     WCT = {
-      waitFor: function(callback) {
-        HTMLIncludes.whenReady(callback);
+      waitFor: function(cb) {
+        cb();
       }
     };
   </script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="include" href="resolve-include-a.html">
+  <link rel="include" href="includes/dynamic-includer.html">
 </head>
+
 <body>
   <script>
-    test('resolve-path', function() {
-      assert.isTrue(window.rootA, './resolve-include-a.html not loaded');
-      assert.isTrue(window.includesB, './includes/resolve-include-b.html not loaded');
-      assert.equal(window.includesBCount, 1, './includes/resolve-include-b.html loaded twice');
-      assert.isTrue(window.includesC, './includes/resolve-include-c.html not loaded');
-      assert.isNotOk(window.rootC, './resolve-include-c.html was loaded');
+    test('dynamic includer', function(done) {
+      HTMLIncludes.whenReady(function() {
+        assert.deepEqual(window.loaded, ['a', 'b', 'c', 'd']);
+        done();
+      });
     });
   </script>
 </body>
+
 </html>

@@ -11,20 +11,20 @@
 <html>
   <head>
     <title>HTML dedupe Test</title>
-    <script src="../../html-imports.min.js"></script>
+    <script src="../../html-includes.min.js"></script>
     <script>
       WCT = {
         waitFor: function(callback) {
-          HTMLImports.whenReady(callback);
+          HTMLIncludes.whenReady(callback);
         }
       };
     </script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="import" href="imports/dedupe.html">
+    <link rel="include" href="includes/dedupe.html">
     <script>
       var link = document.createElement('link');
-      link.href = 'imports/dedupe.html';
-      link.rel = 'import';
+      link.href = 'includes/dedupe.html';
+      link.rel = 'include';
       link.addEventListener('load', function(e) {
         console.log('dynamic link loaded', e.target.href);
       })
@@ -33,8 +33,8 @@
   </head>
   <body>
     <script>
-      test('imports deduped', function() {
-        chai.assert.equal(dedupe, 1, 'import loaded');
+      test('includes deduped', function() {
+        chai.assert.equal(dedupe, 1, 'include loaded');
       });
     </script>
   </body>

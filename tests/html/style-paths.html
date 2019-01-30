@@ -11,17 +11,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HTMLImports Path Tests</title>
-  <script src="../../html-imports.min.js"></script>
+  <title>HTMLIncludes Path Tests</title>
+  <script src="../../html-includes.min.js"></script>
   <script>
     WCT = {
       waitFor: function(callback) {
-        HTMLImports.whenReady(callback);
+        HTMLIncludes.whenReady(callback);
       }
     };
   </script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="import" href="imports/style-paths-import.html">
+  <link rel="include" href="includes/style-paths-include.html">
 </head>
 <body>
   <div class="red">red</div>
@@ -32,15 +32,15 @@
   test('style-paths', function() {
 
     var red = document.querySelector('.red');
-    chai.assert.equal(getComputedStyle(red).backgroundColor, 'rgb(255, 0, 0)', 'style in @import applied');
+    chai.assert.equal(getComputedStyle(red).backgroundColor, 'rgb(255, 0, 0)', 'style in @include applied');
     var image = document.querySelector('.image');
 
     // document relative image url
     var a = document.createElement('a');
-    a.href = 'imports/google.png';
+    a.href = 'includes/google.png';
     chai.assert.match(getComputedStyle(image).backgroundImage, new RegExp(a.href), 'url in style applied');
 
-    if (!HTMLImports.useNative) {
+    if (!HTMLIncludes.useNative) {
       var styles = document.querySelectorAll('style');
       var fontStyle = [].filter.call(styles, function(s) {
         return s.textContent.indexOf('Source+Code+Pro') > -1;
@@ -49,7 +49,7 @@
       chai.assert.ok(fontStyle.sheet);
       chai.assert.equal(fontStyle.sheet.cssRules[2].href,
           'http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,600,800|Source+Code+Pro',
-          '@import url() form rule has proper url')
+          '@include url() form rule has proper url')
     }
   });
   </script>

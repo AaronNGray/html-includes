@@ -11,16 +11,16 @@
 <html>
   <head>
     <title>parser Test</title>
-    <script src="../../html-imports.min.js"></script>
+    <script src="../../html-includes.min.js"></script>
     <script>
       WCT = {
         waitFor: function(callback) {
-          HTMLImports.whenReady(callback);
+          HTMLIncludes.whenReady(callback);
         }
       };
     </script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="import" href="imports/parsed-import-1.html">
+    <link rel="include" href="includes/parsed-include-1.html">
   </head>
   <body>
     <script>

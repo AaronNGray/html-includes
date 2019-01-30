@@ -1,19 +1,19 @@
 {
-  "name": "@webcomponents/html-imports",
+  "name": "@webcomponents/html-includes",
   "version": "1.2.0",
-  "description": "HTML Imports polyfill",
-  "main": "html-imports.min.js",
+  "description": "HTML Includes polyfill",
+  "main": "html-includes.min.js",
   "directories": {
     "test": "tests"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webcomponents/html-imports.git"
+    "url": "https://github.com/AaronNGray/html-includes.git"
   },
   "author": "The Polymer Authors (https://polymer.github.io/AUTHORS.txt)",
   "keywords": [
-    "html-imports",
-    "htmlimports",
+    "html-includes",
+    "htmlincludes",
     "web-components",
     "webcomponents",
     "polyfill",
@@ -21,7 +21,7 @@
   ],
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/webcomponents/html-imports/issues"
+    "url": "https://github.com/AaronNGray/html-includes/issues"
   },
   "scripts": {
     "build": "gulp",
@@ -29,10 +29,11 @@
   },
   "homepage": "https://webcomponents.org/polyfills",
   "devDependencies": {
+    "bower": "^1.8.4",
     "google-closure-compiler": "^20171112.0.0",
     "gulp": "^3.8.8",
     "gulp-sourcemaps": "^2.4.1",
-    "web-component-tester": "^6.4.1"
+    "web-component-tester": "^6.9.0"
   },
   "publishConfig": {
     "access": "public"

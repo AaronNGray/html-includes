@@ -1,0 +1,65 @@
+<!doctype html>
+<!--
+    @license
+    Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+
+<head>
+  <title>includeForElement</title>
+  <script>
+    WCT = {
+      waitFor: function(callback) {
+        HTMLIncludes.whenReady(callback);
+      }
+    };
+  </script>
+  <script src="../../html-includes.min.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+  <link rel="include" href="includes/load-a.html">
+</head>
+
+<body>
+  <script>
+
+    test('baseURI updated', function() {
+      var rootLink = document.head.querySelector('link[rel=include]');
+      assert.equal(rootLink.href, rootLink.include.baseURI, 'rootLink baseURI ok');
+
+      var linkInA = rootLink.include.querySelector('link[rel=include]');
+      assert.equal(linkInA.href, linkInA.include.baseURI, 'linkInA baseURI ok');
+
+      var linkInB = linkInA.include.querySelector('link[rel=include]');
+      assert.equal(linkInB.href, linkInB.include.baseURI, 'linkInB baseURI ok');
+    });
+
+    test('returns the correct include document', function() {
+      var rootLink = document.head.querySelector('link[rel=include]');
+
+      var scriptInA = rootLink.include.querySelector('script');
+      assert.equal(HTMLIncludes.includeForElement(scriptInA), rootLink.include, 'script in load-a ok');
+
+      var linkInA = rootLink.include.querySelector('link[rel=include]');
+      assert.equal(HTMLIncludes.includeForElement(linkInA), rootLink.include, 'link in load-a ok');
+
+      var scriptInB = linkInA.include.querySelector('script');
+      assert.equal(HTMLIncludes.includeForElement(scriptInB), linkInA.include, 'script in load-b ok');
+      var linkInB = linkInA.include.querySelector('link[rel=include]');
+      assert.equal(HTMLIncludes.includeForElement(linkInB), linkInA.include, 'link in load-b ok');
+    });
+
+    test('handles not includeed elements', function() {
+      var rootLink = document.head.querySelector('link[rel=include]');
+      assert.isNotOk(HTMLIncludes.includeForElement(rootLink), 'rootLink has no include');
+      assert.isNotOk(HTMLIncludes.includeForElement(document.body), '<body> has no include');
+      assert.isNotOk(HTMLIncludes.includeForElement(document.createElement('div')), 'disconnected element has no include');
+    });
+  </script>
+</body>
+
+</html>

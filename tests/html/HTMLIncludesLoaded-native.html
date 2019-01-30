@@ -10,22 +10,26 @@
 -->
 <html>
   <head>
-    <title>currentScript Test</title>
+    <title>HTMLIncludesLoaded, native</title>
+    <script>WCT = {waitFor: function(cb){ cb() }}</script>
+    <script>
+      var loaded = false;
+      addEventListener('HTMLIncludesLoaded', function(e) {
+        loaded = true;
+      });
+    </script>
     <script src="../../html-includes.min.js"></script>
-    <script>WCT = {waitFor: function(cb){cb()}};</script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="include" href="includes/script-1.html">
-    <script src="includes/current-script.js"></script>
   </head>
   <body>
+    <link rel="include" href="includes/include-1.html">
     <script>
-      var cs = document.currentScript;
-      test('currentScript', function(done) {
-        chai.assert.equal(cs.parentNode, document.body, 'currentScript set in main document');
-        // In native HTMLIncludes the event 'HTMLIncludesLoaded' might have already
-        // been fired by this time, so use HTMLIncludes.whenReady.
+      test('HTMLIncludesLoaded fires with native includes', function(done) {
+        if (HTMLIncludes.useNative) {
+          assert.isTrue(loaded);
+        }
+        // Wait for includes to finish.
         HTMLIncludes.whenReady(function() {
-          chai.assert.equal(window.remoteCurrentScriptExecuted, 2, 'remote script executed from include and main document');
           done();
         });
       });

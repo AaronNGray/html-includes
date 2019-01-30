@@ -8,25 +8,25 @@
     Code distributed by Google as part of the polymer project is also
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<title>HTMLImports Tests</title>
+<title>HTMLInclude Tests</title>
 <meta charset="utf-8">
 
-<!-- HTMLImports -->
-<script src="../html-imports.min.js"></script>
+<!-- HTMLIncludes -->
+<script src="../html-includes.min.js"></script>
 <script>
   WCT = {
-    environmentImports: [],
+    environmentIncludes: [],
     waitFor: function(callback) {
-      this.HTMLImports.whenReady(callback);
+      this.HTMLIncludes.whenReady(callback);
     }
   };
 </script>
 <script src="../../web-component-tester/browser.js"></script>
 <script>
   WCT.loadSuites([
-    'html/HTMLImportsLoaded-native.html',
-    'html/HTMLImports-lazy.html',
-    'html/link-import.html',
+    'html/HTMLIncludesLoaded-native.html',
+    'html/HTMLIncludes-lazy.html',
+    'html/link-include.html',
     'html/parser.html',
     'html/style-links.html',
     'html/style-paths.html',
@@ -34,23 +34,23 @@
     'html/load-404.html',
     'html/load-empty.html',
     'html/load-loop.html',
-    'html/base/imports-with-base.html',
+    'html/base/includes-with-base.html',
     'html/currentScript.html',
     'html/dedupe.html',
     'html/dynamic.html',
-    'html/dynamic-importer.html',
-    'html/dynamic-all-imports-detail.html',
+    'html/dynamic-includer.html',
+    'html/dynamic-all-includes-detail.html',
     'html/dynamic-errors-detail.html',
     'html/csp.html',
     'html/encoding.html',
     'html/cloned-template-script.html',
     'html/dynamic-elements.html',
-    'html/lazy-import.html',
+    'html/lazy-include.html',
     'html/unclosed.html',
-    'html/import-for-element.html',
+    'html/include-for-element.html',
     'html/ready-state.html',
     'html/resolve-path.html',
-    'html/load-imports.html',
+    'html/load-includes.html',
     'html/es-module.html'
   ]);
 </script>

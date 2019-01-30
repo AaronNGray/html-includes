@@ -8,28 +8,34 @@
     Code distributed by Google as part of the polymer project is also
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Encoding</title>
-  <script src="../../html-includes.min.js"></script>
+  <title>includes with base</title>
+  <base href="../../">
+  <script src="../html-includes.min.js"></script>
   <script>
     WCT = {
-      waitFor: function(callback) {
-        HTMLIncludes.whenReady(callback);
+      waitFor: function(cb) {
+        HTMLIncludes.whenReady(cb);
       }
     };
   </script>
-  <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="include" href="includes/encoding-include.html">
+  <script src="../../web-component-tester/browser.js"></script>
+  <link id="base1" rel="include" href="html/includes/base-1.html">
 </head>
+
 <body>
-  <span id="encodingtarget"></span>
   <script>
-    test('charset is correct', function() {
-      var span = document.getElementById('encodingtarget');
-      chai.assert.equal(span.textContent, 'Róbert Viðar Bjarnason');
+    test('includes with base tag', function() {
+      // First include of base-1.html, which is base-2.html
+      var link = base1.include.querySelector('link[rel=include]');
+      // path to base-2.html
+      var url = window.location.href.replace('base/includes-with-base.html',
+        'includes/base/base-2.html');
+      assert.equal(link.href, url);
     });
   </script>
 </body>
+
 </html>

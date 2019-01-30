@@ -12,10 +12,10 @@
   <head>
     <title>cloned template script Test</title>
     <script src="../../../template/template.js"></script>
-    <script src="../../html-imports.min.js"></script>
+    <script src="../../html-includes.min.js"></script>
     <script>WCT = {waitFor: function(cb){cb()}};</script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="import" href="imports/template-import.html" id="template-import">
+    <link rel="include" href="includes/template-include.html" id="template-include">
   </head>
   <body>
     <div id="container"></div>
@@ -23,12 +23,12 @@
       suite('template script execution', function() {
         var template, container;
         setup(function(done) {
-          // In native HTMLImports the event 'HTMLImportsLoaded' might have already
-          // been fired by this time, so use HTMLImports.whenReady.
+          // In native HTMLIncludes the event 'HTMLIncludesLoaded' might have already
+          // been fired by this time, so use HTMLIncludes.whenReady.
           container = document.querySelector('#container');
-          HTMLImports.whenReady(function() {
-            var importLink = document.querySelector('#template-import');
-            template = importLink.import.querySelector('template');
+          HTMLIncludes.whenReady(function() {
+            var includeLink = document.querySelector('#template-include');
+            template = includeLink.include.querySelector('template');
             done();
           });
         });
@@ -39,35 +39,35 @@
           container.innerHTML = '';
         });
 
-        test('import does not execute scripts in templates', function() {
-          assert.isUndefined(window.executedTemplateScript, 'remote template script is NOT executed after import');
-          assert.isUndefined(window.executedNestedTemplateScript, 'remote nested template script is NOT executed after import');
+        test('include does not execute scripts in templates', function() {
+          assert.isUndefined(window.executedTemplateScript, 'remote template script is NOT executed after include');
+          assert.isUndefined(window.executedNestedTemplateScript, 'remote nested template script is NOT executed after include');
         });
 
         test('executes scripts when template is cloned and attached', function() {
-          container.appendChild(document.importNode(template.content, true));
+          container.appendChild(document.includeNode(template.content, true));
           assert.equal(window.executedTemplateScript, 1, 'remote template script executed once after clone and attach to the main document');
-          assert.isUndefined(window.executedNestedTemplateScript, 'remote nested template script is NOT executed after import');
+          assert.isUndefined(window.executedNestedTemplateScript, 'remote nested template script is NOT executed after include');
         });
 
         test('executes scripts when nested template of cloned template is cloned and attached', function() {
-          container.appendChild(document.importNode(template.content, true));
+          container.appendChild(document.includeNode(template.content, true));
           var nestedTemplate = container.querySelector('template');
-          container.appendChild(document.importNode(nestedTemplate.content, true));
+          container.appendChild(document.includeNode(nestedTemplate.content, true));
           assert.equal(window.executedNestedTemplateScript, 1, 'remote nested template script executed after clone and attach to the main document');
         });
 
         test('executes scripts of each clone', function() {
-          container.appendChild(document.importNode(template.content, true));
+          container.appendChild(document.includeNode(template.content, true));
           assert.equal(window.executedTemplateScript, 1, 'remote template script executed after clone and attach to the main document');
-          container.appendChild(document.importNode(template.content, true));
+          container.appendChild(document.includeNode(template.content, true));
           assert.equal(window.executedTemplateScript, 2, 'remote template script executed after 2nd clone and attach to the main document');
           assert.isUndefined(window.executedNestedTemplateScript, 'remote nested template script is NOT executed after parent is clone and attach to the main document');
         });
 
         test('executes scripts when nested template is cloned and attached', function() {
           var nestedTemplate = template.content.querySelector('template');
-          container.appendChild(document.importNode(nestedTemplate.content, true));
+          container.appendChild(document.includeNode(nestedTemplate.content, true));
           assert.equal(window.executedNestedTemplateScript, 1, 'remote nested template script executed after clone and attach to the main document');
         });
 

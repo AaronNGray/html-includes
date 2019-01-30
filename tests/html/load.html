@@ -14,35 +14,35 @@
     <script>
       window.loadEvents = 0;
       (function() {
-        function importLoaded(event) {
+        function includeLoaded(event) {
           window.loadEvents++;
-          if (event.type === 'load' && event.target.import) {
-            var s = event.target.import.querySelector('script');
-            chai.assert.ok(s, 'load event target can be used to find element in import');
+          if (event.type === 'load' && event.target.include) {
+            var s = event.target.include.querySelector('script');
+            chai.assert.ok(s, 'load event target can be used to find element in include');
           }
         }
 
-        function importError(event) {
+        function includeError(event) {
           window.loadEvents++;
         }
 
-        window.importLoaded = importLoaded;
-        window.importError = importError;
+        window.includeLoaded = includeLoaded;
+        window.includeError = includeError;
       })();
     </script>
-    <script src="../../html-imports.min.js"></script>
+    <script src="../../html-includes.min.js"></script>
     <script>
       WCT = {
         waitFor: function(callback) {
-          HTMLImports.whenReady(callback);
+          HTMLIncludes.whenReady(callback);
         }
       };
     </script>
     <script src="../../../web-component-tester/browser.js"></script>
-    <link rel="import" href="imports/load-1.html" onload="importLoaded(event)">
-    <link rel="import" href="imports/load-2.html" onload="importLoaded(event)">
-    <link rel="import" id="willError" href="imports/404.html" onerror="importError(event)">
-    <link rel="import" id="nohref" onerror="importError(event)">
+    <link rel="include" href="includes/load-1.html" onload="includeLoaded(event)">
+    <link rel="include" href="includes/load-2.html" onload="includeLoaded(event)">
+    <link rel="include" id="willError" href="includes/404.html" onerror="includeError(event)">
+    <link rel="include" id="nohref" onerror="includeError(event)">
   </head>
   <body>
     <div id="test1" class="red">Test</div>
@@ -59,7 +59,7 @@
 
       test('synchronous execution of callback', function() {
         var cb = sinon.stub();
-        HTMLImports.whenReady(cb);
+        HTMLIncludes.whenReady(cb);
         assert.isTrue(cb.called, 'expect synchronous execution');
       });
     </script>

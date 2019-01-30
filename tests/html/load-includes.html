@@ -9,28 +9,42 @@
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
+
 <head>
-  <title>Resolve Path Test</title>
-  <script src="../../html-includes.min.js"></script>
+  <title>loadIncludes</title>
   <script>
     WCT = {
       waitFor: function(callback) {
-        HTMLIncludes.whenReady(callback);
+        callback();
       }
     };
   </script>
+  <script src="../../html-includes.min.js"></script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="include" href="resolve-include-a.html">
 </head>
+
 <body>
   <script>
-    test('resolve-path', function() {
-      assert.isTrue(window.rootA, './resolve-include-a.html not loaded');
-      assert.isTrue(window.includesB, './includes/resolve-include-b.html not loaded');
-      assert.equal(window.includesBCount, 1, './includes/resolve-include-b.html loaded twice');
-      assert.isTrue(window.includesC, './includes/resolve-include-c.html not loaded');
-      assert.isNotOk(window.rootC, './resolve-include-c.html was loaded');
+
+    test('loadIncludes defined', function() {
+      assert.isFunction(HTMLIncludes.loadIncludes, 'loadIncludes defined');
+    });
+
+    test('loadIncludes handles dynamically added includes', function(done) {
+      var link = document.createElement('link');
+      link.href = 'includes/load-a.html';
+      link.rel = 'include';
+      link.addEventListener('load', function(e) {
+        console.log('dynamic link loaded', e.target.href);
+      });
+      document.body.appendChild(link);
+      HTMLIncludes.loadIncludes(document.body);
+      HTMLIncludes.whenReady(function() {
+        assert.deepEqual(window.loaded, ['a', 'b', 'c', 'd']);
+        done();
+      });
     });
   </script>
 </body>
+
 </html>

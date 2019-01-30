@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
     @license
-    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
     This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
     The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
     The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
@@ -11,28 +11,37 @@
 <html>
 
 <head>
-  <title>HTML Includes Dynamic</title>
+  <title>HTML Lazy Includes</title>
   <script src="../../html-includes.min.js"></script>
   <script>
+    var ready;
     WCT = {
       waitFor: function(cb) {
-        cb();
+        HTMLIncludes.whenReady(cb);
       }
     };
   </script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="include" href="includes/unclosed-include.html">
+  <link rel="include" href="includes/load-1.html" id="load1Link">
 </head>
 
 <body>
 
   <script>
-    test('unclosed tag', function(done) {
-      HTMLIncludes.whenReady(function() {
-        var links = document.querySelectorAll('link[rel=include]');
-        assert.equal(links.length, 1);
-        expect(links[0].include).to.be.ok;
+    test('Import lazy-loading another include', function(done) {
+      if (HTMLIncludes.useNative) {
         done();
+        return;
+      }
+      // Some time later..
+      setTimeout(function() {
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'include');
+        link.setAttribute('href', 'includes/load-2.html');
+        link.addEventListener('load', function() {
+          done();
+        });
+        load1Link.include.appendChild(link);
       });
     });
   </script>

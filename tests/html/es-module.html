@@ -11,24 +11,24 @@
 <html>
 
 <head>
-  <title>HTML Imports es module</title>
-  <script src="../../src/html-imports.js"></script>
+  <title>HTML Includes es module</title>
+  <script src="../../src/html-includes.js"></script>
   <script>
     WCT = {
       waitFor: function (callback) {
-        HTMLImports.whenReady(callback);
+        HTMLIncludes.whenReady(callback);
       }
     };
     window.loadedModules = [];
   </script>
   <script src="../../../web-component-tester/browser.js"></script>
-  <link rel="import" href="./imports/es-module-import-1.html">
+  <link rel="include" href="./includes/es-module-include-1.html">
 </head>
 
 <body>
 
   <script>
-    // Polymer build transpiles modules to AMD on browsers without es module and import.meta.url
+    // Polymer build transpiles modules to AMD on browsers without es module and include.meta.url
     // support. We should not execute this test in that case.
     test('es modules', () => {
       if (!window.define) {
@@ -37,11 +37,11 @@
     });
 
     test('inline module', (done) => {
-      // This test should be executed only on browsers that support native modules but not HTML Imports
-      if (!window.define && !HTMLImports.useNative) {
+      // This test should be executed only on browsers that support native modules but not HTML Includes
+      if (!window.define && !HTMLIncludes.useNative) {
         const link = document.createElement('link');
-        link.setAttribute('rel', 'import');
-        link.setAttribute('href', './imports/es-module-inline.html');
+        link.setAttribute('rel', 'include');
+        link.setAttribute('href', './includes/es-module-inline.html');
 
         // Catch error thrown by polyfill
         window.onerror = () => {
